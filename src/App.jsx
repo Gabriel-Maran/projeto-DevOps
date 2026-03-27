@@ -1,19 +1,59 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
   const [num1, setNum1] = useState(null);
   const [typeOper, setTypeOper] = useState("+");
   const [errorMessage, setErrorMessage] = useState(null);
-  const [numHandler, setNumHandler] = useState(0);
+  const [numHandler, setNumHandler] = useState(null);
 
   function addNumHandler(num) {
+    if (errorMessage != null) zerarTudo();
     setNumHandler(numHandler * 10 + num);
   }
+
+  function calcula() {
+    if (num1 === null || numHandler === null) return num1 ?? numHandler;
+
+    const n1 = parseFloat(num1);
+    const n2 = parseFloat(numHandler);
+
+    switch (typeOper) {
+      case "+":
+        return n1 + n2;
+      case "-":
+        return n1 - n2;
+      case "×":
+        return n1 * n2;
+      case "÷":
+        return n2 === 0 ? "DivZero" : n1 / n2;
+    }
+  }
+
+  function realizarOperacao() {
+    var resultado = calcula();
+    if (resultado === "DivZero") {
+      setErrorMessage("Não é possível dividir por zero");
+      zerarTudo();
+    } else {
+      setNum1(null);
+      setNumHandler(resultado);
+    }
+  }
+
   function setOperation(oper) {
-    if (num1 == null) {
+    if (num1 === null) {
       setNum1(numHandler);
-      setNumHandler(0);
+      setNumHandler(null);
+    } else if (numHandler !== null) {
+      const resultado = calcula();
+      if (resultado === "DivZero") {
+        setErrorMessage("Não é possível dividir por zero");
+        zerarTudo();
+      } else {
+        setNum1(resultado);
+        setNumHandler(null);
+      }
     }
     setTypeOper(oper);
   }
@@ -21,67 +61,84 @@ function App() {
   function zerarTudo() {
     setNum1(null);
     setTypeOper("+");
-    setNumHandler(0);
+    setNumHandler(null);
     setErrorMessage(null);
-  }
-
-  function realizarOperacao() {
-    switch (typeOper) {
-      case "+":
-        setNumHandler(num1 + numHandler);
-        setNum1(null);
-        break;
-      case "-":
-        setNumHandler(num1 - numHandler);
-        setNum1(null);
-        break;
-      case "×":
-        setNumHandler(num1 * numHandler);
-        setNum1(null);
-        break;
-      case "÷":
-        if (numHandler == 0) {
-          setErrorMessage("Não é possivel dividir por zero");
-          return;
-        }
-        setNumHandler(num1 / numHandler);
-        setNum1(null);
-        break;
-    }
   }
   return (
     <>
-      <div>
-        <p>{num1}</p>
-        {errorMessage != null ? (
-          <div>{errorMessage}</div>
-        ) : (
-          <div>{numHandler == null ? 0 : numHandler}</div>
-        )}
-        <div>
+      <div id="mainContent">
+        <div id="calculadoraHeader">
+          <p>{num1 == null ? <br /> : num1}</p>
+          {errorMessage != null ? (
+            <div>
+              <p>{errorMessage}</p>
+            </div>
+          ) : (
+            <div>
+              <p>{numHandler == null ? 0 : numHandler}</p>
+            </div>
+          )}
+        </div>
+        <div id="calculadoraMain">
           <div>
-            <button onClick={() => addNumHandler(7)}>7</button>
-            <button onClick={() => addNumHandler(8)}>8</button>
-            <button onClick={() => addNumHandler(9)}>9</button>
-            <button onClick={() => setOperation("÷")}>÷</button>
+            <button className="btn" onClick={() => addNumHandler(7)}>
+              7
+            </button>
+            <button className="btn" onClick={() => addNumHandler(8)}>
+              8
+            </button>
+            <button className="btn" onClick={() => addNumHandler(9)}>
+              9
+            </button>
+            <button className="btn" onClick={() => setOperation("÷")}>
+              ÷
+            </button>
           </div>
           <div>
-            <button onClick={() => addNumHandler(4)}>4</button>
-            <button onClick={() => addNumHandler(5)}>5</button>
-            <button onClick={() => addNumHandler(6)}>6</button>
-            <button onClick={() => setOperation("×")}>×</button>
+            <button className="btn" onClick={() => addNumHandler(4)}>
+              4
+            </button>
+            <button className="btn" onClick={() => addNumHandler(5)}>
+              5
+            </button>
+            <button className="btn" onClick={() => addNumHandler(6)}>
+              6
+            </button>
+            <button className="btn" onClick={() => setOperation("×")}>
+              ×
+            </button>
           </div>
           <div>
-            <button onClick={() => addNumHandler(1)}>1</button>
-            <button onClick={() => addNumHandler(2)}>2</button>
-            <button onClick={() => addNumHandler(3)}>3</button>
-            <button onClick={() => setOperation("-")}>-</button>
+            <button className="btn" onClick={() => addNumHandler(1)}>
+              1
+            </button>
+            <button className="btn" onClick={() => addNumHandler(2)}>
+              2
+            </button>
+            <button className="btn" onClick={() => addNumHandler(3)}>
+              3
+            </button>
+            <button className="btn" onClick={() => setOperation("-")}>
+              -
+            </button>
           </div>
           <div>
-            <button onClick={() => addNumHandler(0)}>0</button>
-            <button onClick={() => realizarOperacao()}>=</button>
-            <button onClick={() => zerarTudo()}>C</button>
-            <button onClick={() => setOperation("+")}>+</button>
+            <button className="btn" onClick={() => addNumHandler(0)}>
+              0
+            </button>
+            <button
+              className="btn"
+              id="resolver"
+              onClick={() => realizarOperacao()}
+            >
+              =
+            </button>
+            <button className="btn" id="zerar" onClick={() => zerarTudo()}>
+              C
+            </button>
+            <button className="btn" onClick={() => setOperation("+")}>
+              +
+            </button>
           </div>
         </div>
       </div>
