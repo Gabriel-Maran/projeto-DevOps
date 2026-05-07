@@ -27,6 +27,8 @@ function App() {
         return n1 * n2;
       case "÷":
         return n2 === 0 ? "DivZero" : n1 / n2;
+      case "mod":
+        return n1 % n2;
     }
   }
 
@@ -43,6 +45,16 @@ function App() {
 
   function setOperation(oper) {
     if (num1 === null) {
+      if (oper == "√") {
+        setNumHandler(Math.sqrt(numHandler));
+        return;
+      } else if (oper == "!") {
+        let num = 1;
+        for (let i = n1; i >= 0; i--) {
+          num *= i;
+        }
+        setNumHandler(num);
+      }
       setNum1(numHandler);
       setNumHandler(null);
     } else if (numHandler !== null) {
@@ -80,6 +92,20 @@ function App() {
           )}
         </div>
         <div id="calculadoraMain">
+          <div>
+            <button className="btn" onClick={() => setOperation("!")}>
+              !
+            </button>
+            <button className="btn" onClick={() => setOperation("mod")}>
+              mod
+            </button>
+            <button className="btn" onClick={() => setOperation("√")}>
+              √
+            </button>
+            <button className="btn" onClick={() => setOperation("^")}>
+              ^
+            </button>
+          </div>
           <div>
             <button className="btn" onClick={() => addNumHandler(7)}>
               7

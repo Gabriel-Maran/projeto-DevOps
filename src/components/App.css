@@ -13,7 +13,7 @@
 .btn {
   background-color: #797979;
   color: white;
-  font-size: 55px;
+  font-size: 45px;
   width: 7rem;
   height: 5rem;
   border-radius: 10px;
@@ -26,8 +26,7 @@
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  width: 36rem;
-  height: 28rem;
+  padding: 2rem;
   border-radius: 0 0 15px 15px;
 }
 
@@ -41,7 +40,7 @@
 
 #calculadoraHeader {
   background-color: #3b3b3b;
-  width: 32rem;
+  width: 32.5rem;
   text-align: end;
   padding: 2rem;
   border-radius: 15px 15px 0 0;
